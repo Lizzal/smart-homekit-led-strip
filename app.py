@@ -6,7 +6,7 @@ app: Flask = Flask(__name__)
 
 @app.route('/')
 def index():
-    return 'LedStrip Servere is running'
+    return 'LedStrip Server is running'
 
 
 @app.route('/color/<hue>/<saturation>/<brightness>')
@@ -20,13 +20,13 @@ def setColor(hue, saturation, brightness):
 # general LED functions
 @app.route('/led/on')
 def ledOn():
-    ledStrip.status = True
+    ledStrip.turnOn()
     return 'LED is now on'
 
 
 @app.route('/led/off')
 def ledOff():
-    ledStrip.status = False
+    ledStrip.turnOff()
     return 'LED is now off'
 
 
@@ -36,12 +36,12 @@ def ledStatus():
 
 
 # HUE functions
-@app.route('/led/hue/get')
+@app.route('/led/hue/current/status')
 def getHue():
-    return 'Current Hue is: {}'.format(ledStrip.hue)
+    return ledStrip.hue
 
 
-@app.route('/led/hue/set/<hue>')
+@app.route('/led/hue/<hue>')
 def setHue(hue):
     ledStrip.hue = hue
     return 'Hue is now set to: {}'.format(hue)
@@ -73,4 +73,4 @@ def setBrigthness(brigthness):
 
 if __name__ == "__main__":
     ledStrip = LedStrip()
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=8080)
